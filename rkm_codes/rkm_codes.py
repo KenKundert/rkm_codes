@@ -54,10 +54,10 @@ types, such as voltage, current, and inductance.
 import re
 from quantiphy import Quantity
 
-# globals {{{1
+# constants {{{1
 # version {{{2
 __version__ = '0.0.1'
-__released__ = '11 September 2018'
+__released__ = '2018-09-11'
 
 # IEC60062 maps {{{2
 IEC60062_MAPS = {
@@ -119,28 +119,73 @@ UNITLESS_MAPS = {
     'h': ('', ''),
 }
 
-# units to rkm base code {{{2
+# map units to rkm base code {{{2
+# Controls the base code produced by to_rkm().
 UNITS_TO_RKM_BASE_CODE = {
     'Ω': 'r',
     'Ohm': 'r',
     'F': 'c',
     'H': 'l',
     'V': 'v',
-    'A': 'a',
+    'A': 'i',
 }
+
+# map scale factors {{{2
+# Controls the scale factors produced by to_rkm().
+MAP_SF = dict(u='μ', k='K')
 
 # utilities {{{1
 # cull {{{2
 def cull(collection):
     return (v for v in collection if v)
 
-# set_maps {{{1
-RKM_MAPS = UNITLESS_MAPS
-def set_maps(maps):
-    global RKM_MAPS
-    RKM_MAPS = maps
+# set_prefs {{{1
+_rkm_maps = UNITLESS_MAPS
+_units_to_rkm_base_code = UNITS_TO_RKM_BASE_CODE
+_map_sf = MAP_SF
+def set_prefs(rkm_maps=False, units_to_rkm_base_code=False, map_sf=False):
+    '''Set Preferences
 
-# read_rkm_code {{{1
+    Use to set values that control the behavior of the RKM code.
+    Any values not passed in a left alone.
+    Pass in *None* to reset a preference to its default value.
+
+    Args:
+        rkm_maps (dictionary of tuples):
+            A dictionary that maps a base code or scale factor into a scale
+            factor and units. Used to affect the behavior or *from_rkm()*.
+            Generally set to rkm_codes.IEC60062_MAPS, which encourages
+            conformance to the standard, or to rkm_codes.UNITLESSs_MAPS, which
+            supports a wider range of quantities than resistances and
+            capacitances. You can also pass in a custom mapping to get a
+            particular result.
+
+        units_to_rkm_base_code (dictionary of strings):
+            A dictionary that maps a units to a base code. Used to affect the
+            behavior of *to_rkm()*.
+
+        map_sf (dictionary of strings):
+            A dictionary that maps the scale factors used by QuantiPhy to the
+            ones found in a RKM code. Used to affect the
+            behavior of *to_rkm()*.
+    '''
+    global _rkm_maps, _units_to_rkm_base_code, _map_sf
+    if rkm_maps:
+        _rkm_maps = rkm_maps
+    elif rkm_maps is None:
+        _rkm_maps = UNITLESS_MAPS
+
+    if units_to_rkm_base_code:
+        _units_to_rkm_base_code = units_to_rkm_base_code
+    elif units_to_rkm_base_code is None:
+        _units_to_rkm_base_code = UNITS_TO_RKM_BASE_CODE
+
+    if map_sf:
+        _map_sf = map_sf
+    elif map_sf is None:
+        _map_sf = MAP_SF
+
+# from_rkm {{{1
 # RKM code patterns
 # regex1 matches rkm codes that start with a digit.
 # regex2 matches rkm codes that end with a digit.
@@ -149,26 +194,68 @@ def set_maps(maps):
 regex1 = re.compile(r'([0-9]+)([a-z]+)(?:([0-9]+)([a-zΩ℧]*))?', re.I)
 regex2 = re.compile(r'([0-9]*)([a-z]+)([0-9]+)([a-zΩ℧]*)', re.I)
 
-def read_rkm_code(code):
+def from_rkm(code):
+    '''From RKM
+
+    Convert a RKM code string to a quantiphy.Quantity.
+
+    Args:
+        code (str of tuples):
+            An RKM code that may include explicitly specified. Examples of
+            acceptable RKM codes for resistance include:   R47 (0.47 Ω), 4R7
+            (4.7 Ω), 470R (470 Ω), 4K7 (4.7 kΩ), 47K (47 kΩ), 47K3 (47.3 kΩ),
+            470K (470 kΩ), and 4M7 (4.7 MΩ).  Units may be added by appending
+            the units to the end: 47K3Ω ((47.3 kΩ).
+    Returns:
+        A quantiphy.Quantity if a valid RKM code was found, otherwise *None* is
+        returned.
+    '''
     for regex in [regex1, regex2]:
         match = regex.match(code)
         if match:
             ld, base, td, units = match.groups()
-            sf, implied_units = RKM_MAPS.get(base, (base, ''))
+            sf, implied_units = _rkm_maps.get(base, (base, ''))
             units = units if units else implied_units
             return Quantity(''.join(cull([ld,  '.',  td,  sf, units])))
 
-# write_rkm_code {{{1
-def write_rkm_code(q, prec=1, show_units=False):
+# to_rkm {{{1
+def to_rkm(q, prec=1, show_units=False, strip_zeros=True):
+    '''To RKM
+
+    Convert a quantiphy.Quantity to an RKM string.
+
+    Args:
+        q (quantiphy.Quantity):
+            The value to be converted to an RKM code.
+        prec (int):
+            The precision. The number of digits is the precision + 1 (default is
+            1).
+        show_units (bool):
+            Whether the units should be appended to the RKM code (default is
+            False).
+        strip_zeros (bool):
+            Whether excess zeros should be removed (default is True).
+    Returns:
+        A quantiphy.Quantity if a valid RKM code was found, otherwise *None* is
+        returned.
+    '''
     value = q.render(
         form='si', show_units=False, strip_zeros=False, strip_radix=False, 
         prec=prec
     )
-    sf = value[-1]
+    sf = SF = value[-1]
     if sf in q.output_sf:
         value = value[:-1]
     else:
-        sf = UNITS_TO_RKM_BASE_CODE.get(q.units, q.units)
+        sf = _units_to_rkm_base_code.get(q.units, q.units)
     if '.' not in value:
         value += '.'
-    return value.replace('.', sf) + (q.units if show_units else '')
+    if strip_zeros:
+        value = value.rstrip('0')
+    units = q.units if show_units else ''
+    if not sf and value[-1] != '.':
+        sf = units if units else 'd'
+        units = ''
+    if SF != sf:
+        value = value.rstrip('.')
+    return value.replace('.', _map_sf.get(sf, sf)) + units

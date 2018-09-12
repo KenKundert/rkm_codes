@@ -62,57 +62,107 @@ This package is used to convert RKM codes to `QuantiPhy Quantities
 
 For example::
 
-    >>> from rkm_codes import read_rkm_code, write_rkm_code
-    >>> r = read_rkm_code('6k8')
+    >>> from rkm_codes import from_rkm, to_rkm
+    >>> r = from_rkm('6K8')
     >>> r
     Quantity('6.8k')
 
-    >>> write_rkm_code(r)
-    '6k8'
+    >>> to_rkm(r)
+    '6K8'
 
-Note that in this case the quantity does not include units. That is because by 
-default *rkm_codes* assumes unitless numbers. You can change this behavior. Out 
-of the box *rkm_codes* supports two kinds of numbers, unitless and those that 
-follow the IEC60062 standard. You can switch between those two kinds of numbers 
-using something like this::
+You Note that in this case the quantity does not include units. That is because 
+by default *rkm_codes* assumes unitless numbers. You can change this behavior. 
+Out of the box *rkm_codes* supports two kinds of numbers, unitless and those 
+that follow the IEC60062 standard. You can switch between those two kinds of 
+numbers using something like this::
 
-    >>> from rkm_codes import set_maps, IEC60062_MAPS, UNITLESS_MAPS
-    >>> r = read_rkm_code('6k8')
+    >>> from rkm_codes import set_prefs, IEC60062_MAPS, UNITLESS_MAPS
+    >>> r = from_rkm('6k8')
     >>> r
     Quantity('6.8k')
 
-    >>> set_maps(IEC60062_MAPS)
-    >>> read_rkm_code('6k8')
+    >>> set_prefs(rkm_maps=IEC60062_MAPS)
+    >>> from_rkm('6k8')
     Quantity('6.8 kΩ')
 
-    >>> set_maps(UNITLESS_MAPS)
-    >>> read_rkm_code('6k8')
+    >>> set_prefs(rkm_maps=UNITLESS_MAPS)
+    >>> from_rkm('6k8')
     Quantity('6.8k')
 
 In either case, *rkm_codes* allows you to explicitly specify the units, which 
 always overrides any implied units::
 
-    >>> set_maps(UNITLESS_MAPS)
-    >>> read_rkm_code('6k8Ω')
+    >>> set_prefs(rkm_maps=UNITLESS_MAPS)
+    >>> from_rkm('6k8Ω')
     Quantity('6.8 kΩ')
 
-    >>> read_rkm_code('2u5A')
+    >>> i = from_rkm('2u5A')
+    >>> i
     Quantity('2.5 uA')
 
-You can create your own maps by passing in a dictionary that maps a RKM code 
-character into a scale factor and units. For example, you could create a map 
-that uses 'd' or 'D' to represent the decimal point in numbers without scale 
-factors rather than 'r', 'c', etc.  For example::
+When converting to an RKM code, you can instruct that the units be included::
 
-    >>> set_maps({'d': (''. ''), 'D': (''. '')})
-    >>> read_rkm_code('6d8Ω')
+    >>> to_rkm(i, show_units=True)
+    '2μ5A'
+
+You can also indicate how many digits should be included::
+
+    >>> to_rkm(i.add(1e-9), prec=5, show_units=True)
+    '2μ501A'
+
+Normally, any excess zeros are removed, but you can change that too::
+
+    >>> to_rkm(i.add(1e-9), prec=5, show_units=True, strip_zeros=False)
+    '2μ50100A'
+
+You can create your own maps by passing in a dictionary that maps a RKM base 
+code character into a scale factor and units. For example, you could create 
+a map that uses 'd' or 'D' to represent the decimal point in numbers without 
+scale factors rather than 'r', 'c', etc.  For example::
+
+    >>> set_prefs(rkm_maps=dict(d=('', ''), D=('', '')))
+    >>> from_rkm('6d8Ω')
     Quantity('6.8 Ω')
 
-    >>> read_rkm_code('2d5V')
+    >>> from_rkm('2d5V')
     Quantity('2.5 V')
 
-If *rkm_codes* encounters a RKM code character that is not in the map, it simply 
-uses that character. In this way, scale factors are handled::
+Passing *None* for the value of a map returns it to its default value.
 
-    >>> read_rkm_code('6k8Ω')
+If *rkm_codes* encounters a RKM base code character that is not in the map, it 
+simply uses that character. In this way, scale factors are handled::
+
+    >>> from_rkm('6k8Ω')
     Quantity('6.8 kΩ')
+
+When converting from Quantities to RKM codes, you can override the default 
+mappings from units to RKM base code characters. The default mapping maps 'Ω' 
+and 'Ohm' to 'r', 'F' to 'c', 'H' to 'l', 'V' to 'v', and 'A' to 'i'.  However, 
+you may prefer uppercase base characters, which is more in alignment with the 
+original standard. To get that, you can use something like this::
+
+    >>> rkm_base_code_mappings = {
+    ...     'Ω': 'R',
+    ...     'Ohm': 'R',
+    ...     'F': 'C',
+    ...     'H': 'L',
+    ...     'V': 'V',
+    ...     'A': 'I',
+    ... }
+    >>> set_prefs(rkm_maps=IEC60062_MAPS, units_to_rkm_base_code=rkm_base_code_mappings)
+    >>> r = from_rkm('k0012')
+    >>> to_rkm(r)
+    '1R2'
+
+You can control the scale factors used by to_rkm() by setting *map_sf* using 
+*set_prefs*. The default maps 'u' to 'μ' and 'k' to 'K'. You might wish to 
+prevent the use of 'μ' while retaining the use of 'K', which you can do with:
+
+    >>> set_prefs(map_sf=dict(k='K'))
+    >>> c = from_rkm('5u')
+    >>> to_rkm(c)
+    '5u'
+
+
+
+

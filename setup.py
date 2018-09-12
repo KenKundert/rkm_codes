@@ -18,6 +18,7 @@ setup(
     download_url='https://github.com/kenkundert/rkm_codes/tarball/master',
     license='GPLv3+',
     zip_safe=True,
+    #install_requires='quantiphy>=2.4'.split(),
     install_requires='quantiphy'.split(),
     setup_requires='pytest-runner>=2.0'.split(),
     tests_require='pytest'.split(),
@@ -31,7 +32,6 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Natural Language :: English',
         'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 2.7',
         #'Programming Language :: Python :: 3.3',
         #    should work, but is no longer tested
         'Programming Language :: Python :: 3.4',
