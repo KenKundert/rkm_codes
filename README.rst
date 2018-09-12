@@ -1,8 +1,8 @@
 RKM codes
 =========
 
-| Version: 0.0.0
-| Released: 2018-09-03
+| Version: 0.0.1
+| Released: 2018-09-11
 |
 
 .. image:: https://img.shields.io/travis/KenKundert/rkm_codes/master.svg

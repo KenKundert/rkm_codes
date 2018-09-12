@@ -8,7 +8,7 @@ with open('README.rst') as f:
 
 setup(
     name='rkm_codes',
-    version='0.0.0',
+    version='0.0.1',
     description='Quantiphy support for RKM codes.',
     long_description=readme,
     author="Ken Kundert",

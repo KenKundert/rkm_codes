@@ -1,6 +1,6 @@
 # RKM code
 
-__version__ = '0.0.0'
+__version__ = '0.0.1'
 __released__ = '11 September 2018'
 
 from .rkm_codes import (
