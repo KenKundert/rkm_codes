@@ -1,0 +1,41 @@
+*.py[co]
+.*.swp
+TODO
+install.out
+.eggs
+.pytest_cache
+tests/.pytest_cache
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+.cache
+__pycache__
+helloworld
+ref
+test
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+.test*.sum
+generated_settings/**
+htmlcov
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
