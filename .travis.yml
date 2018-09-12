@@ -4,17 +4,12 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-  - "3.7-dev"
+  - "3.7"
   - "nightly"
 install:
   - pip install .
   - pip install coveralls
 script:
   - coverage run setup.py pytest
-deploy:
-    provider: pypi
-    user: rkm_codes
-    on:
-        tags: true
 after_success:
   - coveralls
