@@ -6,7 +6,7 @@
 RKM codes
 =========
 
-| Version: 0.0.2
+| Version: 0.1.0
 | Released: 2018-09-12
 |
 
