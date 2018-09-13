@@ -130,3 +130,6 @@ def test_misc():
     assert to_rkm(c) == '20'
     assert to_rkm(c, strip_zeros=False) == '20'
     assert to_rkm(c, strip_zeros=False, prec=5) == '20r0000'
+
+    # return maps to their default behavior
+    set_prefs(rkm_maps=None, units_to_rkm_base_code=None, map_sf=None)

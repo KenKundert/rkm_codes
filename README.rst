@@ -1,3 +1,8 @@
+.. initialize RKM codes
+
+    >>> from rkm_codes import set_prefs
+    >>> set_prefs(rkm_maps=None, units_to_rkm_base_code=None, map_sf=None)
+
 RKM codes
 =========
 
