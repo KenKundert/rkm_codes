@@ -65,7 +65,14 @@ types, such as voltage, current, and inductance.
 This package is used to convert RKM codes to `QuantiPhy Quantities 
 <https://quantiphy.readthedocs.io>`_ and Quantities to RKM codes.
 
-For example::
+Install with::
+
+    pip3 install --user rkm_codes
+
+Requires Python3.4 or better.
+
+The following is a simple example of how to convert back and forth between RKM 
+codes and Quantities::
 
     >>> from rkm_codes import from_rkm, to_rkm
     >>> r = from_rkm('6K8')
