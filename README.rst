@@ -82,11 +82,11 @@ codes and Quantities::
     >>> to_rkm(r)
     '6K8'
 
-You Note that in this case the quantity does not include units. That is because 
-by default *rkm_codes* assumes unitless numbers. You can change this behavior. 
-Out of the box *rkm_codes* supports two kinds of numbers, unitless and those 
-that follow the IEC60062 standard. You can switch between those two kinds of 
-numbers using something like this::
+Notice that in this case the quantity does not include units. That is because by 
+default *rkm_codes* assumes unitless numbers. You can change this behavior.  Out 
+of the box *rkm_codes* supports two kinds of numbers, unitless and those that 
+follow the IEC60062 standard. You can switch between those two kinds of numbers 
+using something like this::
 
     >>> from rkm_codes import set_prefs, IEC60062_MAPS, UNITLESS_MAPS
     >>> r = from_rkm('6k8')
@@ -176,5 +176,34 @@ prevent the use of 'μ' while retaining the use of 'K', which you can do with:
     '5u'
 
 
+Pin Generator Example
+---------------------
 
+As a practical example of the use of RKM codes, imagine wanting a program that 
+creates pin names for an electrical circuit based on a naming convention.  It 
+would take a table of pin characteristics that are used to create the names.  
+For example::
 
+    >>> from quantiphy import Quantity
+    >>> from rkm_codes import to_rkm, set_prefs as set_rkm_prefs
+
+    >>> pins = [
+    ...     dict(kind='ibias', direction='out', polarity='sink', dest='dac', value='250nA'),
+    ...     dict(kind='ibias', direction='out', polarity='src', dest='rampgen', value='2.5μA'),
+    ...     dict(kind='vref', direction='out', dest='dac', value='1.25V'),
+    ...     dict(kind='vdda', direction='in', value='2.5V'),
+    ... ]
+    >>> set_rkm_prefs(map_sf={}, units_to_rkm_base_code=None)
+
+    >>> for pin in pins:
+    ...     components = []
+    ...     if 'value' in pin:
+    ...         pin['VALUE'] = to_rkm(Quantity(pin['value']))
+    ...     for name in ['dest', 'kind', 'direction', 'VALUE', 'polarity']:
+    ...         if name in pin:
+    ...             components.append(pin[name])
+    ...     print('_'.join(components))
+    dac_ibias_out_250n_sink
+    rampgen_ibias_out_2u5_src
+    dac_vref_out_1v2
+    vdda_in_2v5

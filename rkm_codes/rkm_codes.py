@@ -170,20 +170,20 @@ def set_prefs(rkm_maps=False, units_to_rkm_base_code=False, map_sf=False):
             behavior of *to_rkm()*.
     '''
     global _rkm_maps, _units_to_rkm_base_code, _map_sf
-    if rkm_maps:
-        _rkm_maps = rkm_maps
-    elif rkm_maps is None:
+    if rkm_maps is None:
         _rkm_maps = UNITLESS_MAPS
+    elif rkm_maps is not False:
+        _rkm_maps = rkm_maps
 
-    if units_to_rkm_base_code:
-        _units_to_rkm_base_code = units_to_rkm_base_code
-    elif units_to_rkm_base_code is None:
+    if units_to_rkm_base_code is None:
         _units_to_rkm_base_code = UNITS_TO_RKM_BASE_CODE
+    elif units_to_rkm_base_code is not False:
+        _units_to_rkm_base_code = units_to_rkm_base_code
 
-    if map_sf:
-        _map_sf = map_sf
-    elif map_sf is None:
+    if map_sf is None:
         _map_sf = MAP_SF
+    elif map_sf is not False:
+        _map_sf = map_sf
 
 # from_rkm {{{1
 # RKM code patterns
