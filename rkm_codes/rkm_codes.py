@@ -56,8 +56,8 @@ from quantiphy import Quantity
 
 # constants {{{1
 # version {{{2
-__version__ = '0.1.0'
-__released__ = '2018-09-12'
+__version__ = '0.2.0'
+__released__ = '2018-09-14'
 
 # IEC60062 maps {{{2
 IEC60062_MAPS = {

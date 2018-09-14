@@ -8,5 +8,5 @@ Releases
     - fixed issue in *set_prefs()*.
 
 **Latest development release**:
-    | Version: 0.1.0
-    | Released: 2018-09-12
+    | Version: 0.2.0
+    | Released: 2018-09-14
