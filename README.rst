@@ -176,8 +176,8 @@ prevent the use of 'μ' while retaining the use of 'K', which you can do with:
     '5u'
 
 
-Pin Generator Example
----------------------
+Pin Name Generator Example
+--------------------------
 
 As a practical example of the use of RKM codes, imagine wanting a program that 
 creates pin names for an electrical circuit based on a naming convention.  It 

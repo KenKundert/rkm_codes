@@ -9,7 +9,7 @@ with open('README.rst') as f:
 setup(
     name='rkm_codes',
     version='0.2.0',
-    description='Quantiphy support for RKM codes.',
+    description='QuantiPhy support for RKM codes.',
     long_description=readme,
     author="Ken Kundert",
     author_email='rkm_codes@nurdletech.com',
