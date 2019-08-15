@@ -5,6 +5,7 @@ install.out
 .eggs
 .pytest_cache
 tests/.pytest_cache
+pin_name_generator
 
 # Packages
 *.egg
