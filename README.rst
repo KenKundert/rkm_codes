@@ -28,7 +28,7 @@ national and international standards, including: IEC 60062 (1952) (formerly IEC 
 DIN 40825 (1973), BS 1852 (1974), IS 8186 (1976) and EN 60062 (1993).
 IEC-60062 was significantly updated in 2016.
 
-RKM codes were originally meant also as part marking codes.  This shorthand
+RKM codes were originally used as part marking codes.  This shorthand
 notation is widely used in electrical engineering to denote the values of
 resistors and capacitors in circuit diagrams and in the production of electronic
 circuits (for example in bills of material and in silk screens). This method
