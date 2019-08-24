@@ -1,7 +1,10 @@
 .. initialize RKM codes
 
     >>> from rkm_codes import set_prefs
-    >>> set_prefs(rkm_maps=None, units_to_rkm_base_code=None, map_sf=None)
+    >>> set_prefs(
+    ...     rkm_maps=None, units_to_rkm_base_code=None, map_sf=None,
+    ...     show_units=None, strip_zeros=None, minus_sign=None, prec=None
+    ... )
 
 RKM codes
 =========
@@ -62,7 +65,7 @@ However, this package also supports a version of RKM codes where the units are
 not implied by the value, making RKM codes suitable for a wider variety of value
 types, such as voltage, current, and inductance.
 
-This package is used to convert RKM codes to `QuantiPhy Quantities 
+This package converts RKM codes to `QuantiPhy Quantities 
 <https://quantiphy.readthedocs.io>`_ and Quantities to RKM codes.
 
 Install with::
@@ -105,27 +108,27 @@ In either case, *rkm_codes* allows you to explicitly specify the units, which
 always overrides any implied units::
 
     >>> set_prefs(rkm_maps=UNITLESS_MAPS)
-    >>> from_rkm('6k8Ω')
+    >>> from_rkm('6kΩ8')
     Quantity('6.8 kΩ')
 
-    >>> i = from_rkm('2u5A')
+    >>> i = from_rkm('2uA5')
     >>> i
     Quantity('2.5 uA')
 
 When converting to an RKM code, you can instruct that the units be included::
 
     >>> to_rkm(i, show_units=True)
-    '2μ5A'
+    '2μA5'
 
 You can also indicate how many digits should be included::
 
     >>> to_rkm(i.add(1e-9), prec=5, show_units=True)
-    '2μ501A'
+    '2μA501'
 
 Normally, any excess zeros are removed, but you can change that too::
 
     >>> to_rkm(i.add(1e-9), prec=5, show_units=True, strip_zeros=False)
-    '2μ50100A'
+    '2μA50100'
 
 You can create your own maps by passing in a dictionary that maps a RKM base 
 code character into a scale factor and units. For example, you could create 
@@ -133,19 +136,19 @@ a map that uses 'd' or 'D' to represent the decimal point in numbers without
 scale factors rather than 'r', 'c', etc.  For example::
 
     >>> set_prefs(rkm_maps=dict(d=('', ''), D=('', '')))
-    >>> from_rkm('6d8Ω')
-    Quantity('6.8 Ω')
+    >>> from_rkm('6d8')
+    Quantity('6.8')
 
-    >>> from_rkm('2d5V')
-    Quantity('2.5 V')
+    >>> from_rkm('2d5')
+    Quantity('2.5')
 
 Passing *None* for the value of a map returns it to its default value.
 
 If *rkm_codes* encounters a RKM base code character that is not in the map, it 
 simply uses that character. In this way, scale factors are handled::
 
-    >>> from_rkm('6k8Ω')
-    Quantity('6.8 kΩ')
+    >>> from_rkm('6k8')
+    Quantity('6.8k')
 
 When converting from Quantities to RKM codes, you can override the default 
 mappings from units to RKM base code characters. The default mapping maps 'Ω' 
@@ -170,10 +173,10 @@ You can control the scale factors used by to_rkm() by setting *map_sf* using
 *set_prefs*. The default maps 'u' to 'μ' and 'k' to 'K'. You might wish to 
 prevent the use of 'μ' while retaining the use of 'K', which you can do with:
 
-    >>> set_prefs(map_sf=dict(k='K'))
+    >>> set_prefs(map_sf=dict(u='µ'))
     >>> c = from_rkm('5u')
     >>> to_rkm(c)
-    '5u'
+    '5µ'
 
 
 Pin Name Generator Example
@@ -193,7 +196,7 @@ For example::
     ...     dict(kind='vref', direction='out', dest='dac', value='1.25V'),
     ...     dict(kind='vdda', direction='in', value='2.5V'),
     ... ]
-    >>> set_rkm_prefs(map_sf={}, units_to_rkm_base_code=None)
+    >>> set_rkm_prefs(map_sf={}, units_to_rkm_base_code=None, show_units=True, prec=2)
 
     >>> for pin in pins:
     ...     components = []
@@ -203,7 +206,7 @@ For example::
     ...         if name in pin:
     ...             components.append(pin[name])
     ...     print('_'.join(components))
-    dac_ibias_out_250n_sink
-    rampgen_ibias_out_2u5_src
-    dac_vref_out_1v2
-    vdda_in_2v5
+    dac_ibias_out_250nA_sink
+    rampgen_ibias_out_2uA5_src
+    dac_vref_out_1V25
+    vdda_in_2V5

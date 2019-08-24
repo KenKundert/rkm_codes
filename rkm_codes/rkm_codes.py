@@ -108,9 +108,7 @@ UNITLESS_MAPS = {
 
     'r': ('', ''),  # resistors
     'R': ('', ''),
-    'Ω': ('', ''),
-    'v': ('', ''),  # voltages
-    'V': ('', ''),
+    'v': ('', 'V'),  # voltages
     'i': ('', ''),  # currents
     'I': ('', ''),
     'c': ('', ''),  # capacitors
@@ -133,6 +131,10 @@ UNITS_TO_RKM_BASE_CODE = {
 # map scale factors {{{2
 # Controls the scale factors produced by to_rkm().
 MAP_SF = dict(u='μ', k='K')
+MINUS_SIGN = 'n'
+SHOW_UNITS = False
+STRIP_ZEROS = True
+PREC = 1
 
 # utilities {{{1
 # cull {{{2
@@ -143,7 +145,15 @@ def cull(collection):
 _rkm_maps = UNITLESS_MAPS
 _units_to_rkm_base_code = UNITS_TO_RKM_BASE_CODE
 _map_sf = MAP_SF
-def set_prefs(rkm_maps=False, units_to_rkm_base_code=False, map_sf=False):
+_minus_sign = MINUS_SIGN
+_show_units = SHOW_UNITS
+_prec = PREC
+_strip_zeros = STRIP_ZEROS
+
+def set_prefs(
+    rkm_maps=False, units_to_rkm_base_code=False, map_sf=False,
+    show_units=0, strip_zeros=0, minus_sign=False, prec=False
+):
     '''Set Preferences
 
     Use to set values that control the behavior of the RKM code.
@@ -168,8 +178,19 @@ def set_prefs(rkm_maps=False, units_to_rkm_base_code=False, map_sf=False):
             A dictionary that maps the scale factors used by QuantiPhy to the
             ones found in a RKM code. Used to affect the
             behavior of *to_rkm()*.
+        show_units (bool):
+            Whether the units should be included in the RKM code.
+        stripzeros (bool):
+            Whether the units should be included in the RKM code.
+        minus_sign (str):
+            Character to use to indicate a negative value. The default is 'n',
+            but 'm' is also common.
+        prec (int):
+            Precision. Number of digits shown in 1 plus this number.
     '''
     global _rkm_maps, _units_to_rkm_base_code, _map_sf
+    global _show_units, _strip_zeros, _minus_sign, _prec
+
     if rkm_maps is None:
         _rkm_maps = UNITLESS_MAPS
     elif rkm_maps is not False:
@@ -185,14 +206,34 @@ def set_prefs(rkm_maps=False, units_to_rkm_base_code=False, map_sf=False):
     elif map_sf is not False:
         _map_sf = map_sf
 
+    if show_units is None:
+        _show_units = SHOW_UNITS
+    elif show_units is not 0:
+        _show_units = show_units
+
+    if strip_zeros is None:
+        _strip_zeros = STRIP_ZEROS
+    elif strip_zeros is not 0:
+        _strip_zeros = strip_zeros
+
+    if minus_sign is None:
+        _minus_sign = MINUS_SIGN
+    elif minus_sign is not False:
+        _minus_sign = minus_sign
+
+    if prec is None:
+        _prec = PREC
+    elif prec is not False:
+        _prec = prec
+
 # from_rkm {{{1
 # RKM code patterns
 # regex1 matches rkm codes that start with a digit.
 # regex2 matches rkm codes that end with a digit.
 # Both allow optional trailing units that consist only of letters selected 
 # symbols (no digits).
-regex1 = re.compile(r'([0-9]+)([a-z]+)(?:([0-9]+)([a-zΩ℧]*))?', re.I)
-regex2 = re.compile(r'([0-9]*)([a-z]+)([0-9]+)([a-zΩ℧]*)', re.I)
+regex1 = re.compile(r'([pmn]?)([0-9]+)([a-zµμΩ℧]+)([0-9]*)', re.I)
+regex2 = re.compile(r'([pmn]?)([0-9]*)([a-zµμΩ℧]+)([0-9]+)', re.I)
 
 def from_rkm(code):
     '''From RKM
@@ -213,13 +254,16 @@ def from_rkm(code):
     for regex in [regex1, regex2]:
         match = regex.match(code)
         if match:
-            ld, base, td, units = match.groups()
-            sf, implied_units = _rkm_maps.get(base, (base, ''))
-            units = units if units else implied_units
-            return Quantity(''.join(cull([ld,  '.',  td,  sf, units])))
+            sign, ld, base, td = match.groups()
+            sf, units = _rkm_maps.get(base, (base, ''))
+            if sign and sign in 'mn':
+                sign = '-'
+            else:
+                sign = ''
+            return Quantity(''.join(cull([sign, ld,  '.',  td,  sf, units])))
 
 # to_rkm {{{1
-def to_rkm(q, prec=1, show_units=False, strip_zeros=True):
+def to_rkm(q, prec=None, show_units=None, strip_zeros=None):
     '''To RKM
 
     Convert a quantiphy.Quantity to an RKM string.
@@ -228,34 +272,48 @@ def to_rkm(q, prec=1, show_units=False, strip_zeros=True):
         q (quantiphy.Quantity):
             The value to be converted to an RKM code.
         prec (int):
-            The precision. The number of digits is the precision + 1 (default is
-            1).
-        show_units (bool):
-            Whether the units should be appended to the RKM code (default is
-            False).
+            The precision. The number of digits is the precision + 1.
+        show_units (str):
+            Whether and where the units should be included in the RKM code.
+            Possible choices include 'no', 'mid', 'end'.  Default is
+            'no'.
         strip_zeros (bool):
             Whether excess zeros should be removed (default is True).
     Returns:
         A quantiphy.Quantity if a valid RKM code was found, otherwise *None* is
         returned.
     '''
+    if show_units is None:
+        show_units = _show_units
+    if strip_zeros is None:
+        strip_zeros = _strip_zeros
+    if prec is None:
+        prec = _prec
+    units = q.units if show_units else ''
+    rkm_base_code = _units_to_rkm_base_code.get(q.units, q.units)
+
     value = q.render(
         form='si', show_units=False, strip_zeros=False, strip_radix=False, 
         prec=prec
     )
-    sf = SF = value[-1]
-    if sf in q.output_sf:
+    value.replace('-', _minus_sign)
+    sf = value[-1]
+    if sf and sf in q.output_sf:
         value = value[:-1]
+    elif units:
+        sf = ''
     else:
-        sf = _units_to_rkm_base_code.get(q.units, q.units)
+        sf = rkm_base_code
     if '.' not in value:
         value += '.'
     if strip_zeros:
         value = value.rstrip('0')
-    units = q.units if show_units else ''
     if not sf and value[-1] != '.':
-        sf = units if units else 'd'
-        units = ''
-    if SF != sf:
+        if units:
+            sf = units
+            units = ''
+        else:
+            sf = 'd'
+    if sf == rkm_base_code:
         value = value.rstrip('.')
-    return value.replace('.', _map_sf.get(sf, sf)) + units
+    return value.replace('.', _map_sf.get(sf, sf)+units)
