@@ -3,8 +3,8 @@ Releases
 
 
 **Latest development release**:
-    | Version: 0.2.0
-    | Released: 2018-09-14
+    | Version: 0.3.0
+    | Released: 2019-08-23
 
 **0.3 (2019-08-23)**:
     - move the units to the middle of the number with the scale factor
