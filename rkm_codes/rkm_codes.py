@@ -296,7 +296,7 @@ def to_rkm(q, prec=None, show_units=None, strip_zeros=None):
         form='si', show_units=False, strip_zeros=False, strip_radix=False, 
         prec=prec
     )
-    value.replace('-', _minus_sign)
+    value = value.replace('-', _minus_sign)
     sf = value[-1]
     if sf and sf in q.output_sf:
         value = value[:-1]

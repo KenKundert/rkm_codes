@@ -31,6 +31,9 @@ testcases = [
     dict(maps=UNITLESS_MAPS, name='sniper', icode='2l', q='2', ocode='2', ocodeu='2'),
     dict(maps=UNITLESS_MAPS, name='pajama', icode='2l5', q='2.5', ocode='2d5', ocodeu='2d5'),
     dict(maps=UNITLESS_MAPS, name='prose', icode='2pH5', q='2.5 pH', ocode='2p5', ocodeu='2pH5'),
+    dict(maps=UNITLESS_MAPS, name='gaffe', icode='p2pH5', q='2.5 pH', ocode='2p5', ocodeu='2pH5'),
+    dict(maps=UNITLESS_MAPS, name='object', icode='n2pH5', q='-2.5 pH', ocode='n2p5', ocodeu='n2pH5'),
+    dict(maps=UNITLESS_MAPS, name='shuffle', icode='m2pH5', q='-2.5 pH', ocode='n2p5', ocodeu='n2pH5'),
 
     dict(maps=IEC60062_MAPS, name='tilde', icode='R47', q='470 mΩ', ocode='470m', ocodeu='470mΩ'),
     dict(maps=IEC60062_MAPS, name='circlet', icode='R47', q='470 mΩ', ocode='470m', ocodeu='470mΩ'),
