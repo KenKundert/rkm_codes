@@ -226,7 +226,7 @@ by specifying either 'ld' or 'td' as a second argument.  For example:
     200 nA
 
 
-u Pin Name Generator Example
+Pin Name Generator Example
 --------------------------
 
 As a practical example of the use of RKM codes, imagine wanting a program that 
@@ -257,3 +257,29 @@ For example::
     rampgen_ibias_out_2uA5_src
     dac_vref_out_1V25
     vdda_in_2V5
+
+
+Releases
+--------
+
+**Latest development release**:
+    | Version: 0.3.0
+    | Released: 2019-08-23
+
+**0.4 (2019-08-29)**:
+    - added find_rkm()
+
+**0.3 (2019-08-23)**:
+    - move the units to the middle of the number with the scale factor
+    - added support for signed numbers
+    - added *show_units*, *strip_zeros*, *minus_sign*, and *prec* to preferences
+    - this release is not backward compatible; units at the end of the number 
+      are no longer supported
+
+**0.2 (2018-09-14)**:
+    - fixed issue in *set_prefs()*
+
+**0.1 (2018-09-12)**:
+    - initial release
+
+
