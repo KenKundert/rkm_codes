@@ -226,33 +226,35 @@ def set_prefs(
     elif prec is not False:
         _prec = prec
 
-# from_rkm {{{1
-# RKM code patterns
+# RKM code patterns {{{1
 # regex1 matches rkm codes that start with a digit.
 # regex2 matches rkm codes that end with a digit.
-# Both allow optional trailing units that consist only of letters selected 
-# symbols (no digits).
-regex1 = re.compile(r'([pmn]?)([0-9]+)([a-zµμΩ℧]+)([0-9]*)', re.I)
-regex2 = re.compile(r'([pmn]?)([0-9]*)([a-zµμΩ℧]+)([0-9]+)', re.I)
+ld_regex = r'([pmn]?)([0-9]+)([a-zµμΩ℧]+)([0-9]*)'
+td_regex = r'([pmn]?)([0-9]*)([a-zµμΩ℧]+)([0-9]+)'
+combined_regex = '(?:{})|(?:{})'.format(ld_regex, td_regex)
+ld_matcher = re.compile(ld_regex, re.I)
+td_matcher = re.compile(td_regex, re.I)
+combined_matcher = re.compile(combined_regex, re.I)
 
+# from_rkm {{{1
 def from_rkm(code):
     '''From RKM
 
     Convert a RKM code string to a quantiphy.Quantity.
 
     Args:
-        code (str of tuples):
+        code (str):
             An RKM code that may include explicitly specified. Examples of
             acceptable RKM codes for resistance include:   R47 (0.47 Ω), 4R7
             (4.7 Ω), 470R (470 Ω), 4K7 (4.7 kΩ), 47K (47 kΩ), 47K3 (47.3 kΩ),
             470K (470 kΩ), and 4M7 (4.7 MΩ).  Units may be added by appending
-            the units to the end: 47K3Ω ((47.3 kΩ).
+            the units to the scale factor, as in 47KΩ3 (47.3 kΩ).
     Returns:
         A quantiphy.Quantity if a valid RKM code was found, otherwise *None* is
         returned.
     '''
-    for regex in [regex1, regex2]:
-        match = regex.match(code)
+    for matcher in [ld_matcher, td_matcher]:
+        match = matcher.match(code)
         if match:
             sign, ld, base, td = match.groups()
             sf, units = _rkm_maps.get(base, (base, ''))
@@ -273,10 +275,9 @@ def to_rkm(q, prec=None, show_units=None, strip_zeros=None):
             The value to be converted to an RKM code.
         prec (int):
             The precision. The number of digits is the precision + 1.
-        show_units (str):
-            Whether and where the units should be included in the RKM code.
-            Possible choices include 'no', 'mid', 'end'.  Default is
-            'no'.
+        show_units (bool):
+            Whether and where the units should be included in the RKM code
+            (default is False).
         strip_zeros (bool):
             Whether excess zeros should be removed (default is True).
     Returns:
@@ -317,3 +318,30 @@ def to_rkm(q, prec=None, show_units=None, strip_zeros=None):
     if sf == rkm_base_code:
         value = value.rstrip('.')
     return value.replace('.', _map_sf.get(sf, sf)+units)
+
+# find_rkm {{{1
+def find_rkm(text, kind=None):
+    '''Find RKM codes
+
+    Iterate through RKM codes found in a text string.
+
+    Args:
+        text (str):
+            The text string that is to be searched for RKM codes.
+        kind (str):
+            Specify:
+                'ld': match only RKMs with leading digits
+                'td': match only RKMs with trailing digits
+                anything else: match either type of RKMs
+    Yields:
+        Succession of quantities.
+    '''
+    if kind == 'ld':
+        matcher = ld_matcher
+    elif kind == 'td':
+        matcher = td_matcher
+    else:
+        matcher = combined_matcher
+
+    for match in matcher.finditer(text):
+        yield from_rkm(match.expand(r'\g<0>'))

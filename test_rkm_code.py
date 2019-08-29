@@ -1,7 +1,7 @@
 # encoding: utf8
 
 from rkm_codes import (
-    set_prefs, from_rkm, to_rkm, IEC60062_MAPS, UNITLESS_MAPS
+    set_prefs, from_rkm, to_rkm, find_rkm, IEC60062_MAPS, UNITLESS_MAPS
 )
 from quantiphy import Quantity
 
@@ -146,6 +146,24 @@ def test_misc():
     assert to_rkm(c) == '20'
     assert to_rkm(c, strip_zeros=False) == '20'
     assert to_rkm(c, strip_zeros=False, prec=5) == '20r0000'
+
+    found = ', '.join(str(e) for e in find_rkm('sink200nA', 'ld'))
+    assert found == '200 nA'
+
+    found = ', '.join(str(e) for e in find_rkm('sink200nA', 'td'))
+    assert found == '200 msink'
+
+    found = ', '.join(str(e) for e in find_rkm('ib_n2nA5_vco', 'ld'))
+    assert found == '-2.5 nA'
+
+    found = ', '.join(str(e) for e in find_rkm('''
+        An RKM code that may include explicitly specified. Examples of
+        acceptable RKM codes for resistance include:   R47 (0.47 Ω), 4R7
+        (4.7 Ω), 470R (470 Ω), 4K7 (4.7 kΩ), 47K (47 kΩ), 47K3 (47.3 kΩ),
+        470K (470 kΩ), and 4M7 (4.7 MΩ).  Units may be added by appending
+        the units to the scale factor: 47KΩ3 (47.3 kΩ).
+    '''))
+    assert found == '470m, 4.7, 470, 4.7k, 47k, 47.3k, 470k, 4.7M, 47.3 kΩ'
 
     # return maps to their default behavior
     set_prefs(rkm_maps=None, units_to_rkm_base_code=None, map_sf=None)

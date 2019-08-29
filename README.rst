@@ -65,6 +65,10 @@ However, this package also supports a version of RKM codes where the units are
 not implied by the value, making RKM codes suitable for a wider variety of value
 types, such as voltage, current, and inductance.
 
+
+Installing
+----------
+
 This package converts RKM codes to `QuantiPhy Quantities 
 <https://quantiphy.readthedocs.io>`_ and Quantities to RKM codes.
 
@@ -73,6 +77,10 @@ Install with::
     pip3 install --user rkm_codes
 
 Requires Python3.4 or better.
+
+
+Converting to and from RKM Codes
+--------------------------------
 
 The following is a simple example of how to convert back and forth between RKM 
 codes and Quantities::
@@ -179,7 +187,46 @@ prevent the use of 'μ' while retaining the use of 'K', which you can do with:
     '5µ'
 
 
-Pin Name Generator Example
+Finding RKM Codes
+-----------------
+
+*find_rkm* is available for finding the RKM codes embedded in text strings.  
+Using it, you can iterate through all the numbers specified using RKM:
+
+    >>> from rkm_codes import find_rkm
+
+    >>> text = '''
+    ...     An RKM code that may include explicitly specified. Examples of
+    ...     acceptable RKM codes for resistance include:   R47 (0.47 Ω), 4R7
+    ...     (4.7 Ω), 470R (470 Ω), 4K7 (4.7 kΩ), 47K (47 kΩ), 47K3 (47.3 kΩ),
+    ...     470K (470 kΩ), and 4M7 (4.7 MΩ).
+    ... '''
+    >>> for num in find_rkm(text):
+    ...     print(num)
+    470 mΩ
+    4.7 Ω
+    470 Ω
+    4.7 kΩ
+    47 kΩ
+    47.3 kΩ
+    470 kΩ
+    4.7 MΩ
+
+When the RKM code is not isolated by punctuation or spaces it can get confused 
+by leading and trailing text.  You can often resolve this issue by restricting 
+the matches to either the leading or trailing digit forms of the RKM code. Do so 
+by specifying either 'ld' or 'td' as a second argument.  For example:
+
+    >>> for num in find_rkm('sink200nA'):
+    ...     print(num)
+    200 msink
+
+    >>> for num in find_rkm('sink200nA', 'ld'):
+    ...     print(num)
+    200 nA
+
+
+u Pin Name Generator Example
 --------------------------
 
 As a practical example of the use of RKM codes, imagine wanting a program that 
