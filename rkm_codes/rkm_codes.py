@@ -208,12 +208,12 @@ def set_prefs(
 
     if show_units is None:
         _show_units = SHOW_UNITS
-    elif show_units is not 0:
+    elif show_units != 0:
         _show_units = show_units
 
     if strip_zeros is None:
         _strip_zeros = STRIP_ZEROS
-    elif strip_zeros is not 0:
+    elif strip_zeros != 0:
         _strip_zeros = strip_zeros
 
     if minus_sign is None:
