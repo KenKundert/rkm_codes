@@ -9,8 +9,8 @@
 RKM codes
 =========
 
-| Version: 0.4.0
-| Released: 2019-08-29
+| Version: 0.4.1
+| Released: 2020-01-23
 |
 
 .. image:: https://img.shields.io/travis/KenKundert/rkm_codes/master.svg
@@ -263,8 +263,8 @@ Releases
 --------
 
 **Latest development release**:
-    | Version: 0.4.0
-    | Released: 2019-08-29
+    | Version: 0.4.1
+    | Released: 2020-01-23
 
 **0.4 (2019-08-29)**:
     - added find_rkm()
