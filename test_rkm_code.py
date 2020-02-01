@@ -10,8 +10,8 @@ testcases = [
     dict(maps=UNITLESS_MAPS, name='monopoly', icode='Ω47', q='470 mΩ', ocode='470m', ocodeu='470mΩ'),
     dict(maps=UNITLESS_MAPS, name='tappet', icode='4R7', q='4.7', ocode='4d7', ocodeu='4d7'),
     dict(maps=UNITLESS_MAPS, name='requite', icode='4Ω7', q='4.7 Ω', ocode='4r7', ocodeu='4Ω7'),
-    dict(maps=UNITLESS_MAPS, name='revamp', icode='470R', q='470', ocode='470', ocodeu='470'),
-    dict(maps=UNITLESS_MAPS, name='caterer', icode='470Ω', q='470 Ω', ocode='470', ocodeu='470Ω'),
+    dict(maps=UNITLESS_MAPS, name='revamp', icode='470R', q='470', ocode='470d', ocodeu='470d'),
+    dict(maps=UNITLESS_MAPS, name='caterer', icode='470Ω', q='470 Ω', ocode='470r', ocodeu='470Ω'),
     dict(maps=UNITLESS_MAPS, name='strap', icode='4K7', q='4.7k', ocode='4K7', ocodeu='4K7'),
     dict(maps=UNITLESS_MAPS, name='front', icode='4KΩ7', q='4.7 kΩ', ocode='4K7', ocodeu='4KΩ7'),
     dict(maps=UNITLESS_MAPS, name='ensue', icode='47K', q='47k', ocode='47K', ocodeu='47K'),
@@ -22,13 +22,13 @@ testcases = [
     dict(maps=UNITLESS_MAPS, name='loofah', icode='2v5', q='2.5 V', ocode='2v5', ocodeu='2V5'),
     dict(maps=UNITLESS_MAPS, name='scree', icode='2nA5A', q='2.5 nA', ocode='2n5', ocodeu='2nA5'),
     dict(maps=UNITLESS_MAPS, name='socialite', icode='f220', q='220m', ocode='220m', ocodeu='220m'),
-    dict(maps=UNITLESS_MAPS, name='rehearsal', icode='2c', q='2', ocode='2', ocodeu='2'),
+    dict(maps=UNITLESS_MAPS, name='rehearsal', icode='2c', q='2', ocode='2d', ocodeu='2d'),
     dict(maps=UNITLESS_MAPS, name='kilogram', icode='2c5', q='2.5', ocode='2d5', ocodeu='2d5'),
-    dict(maps=UNITLESS_MAPS, name='misinform', icode='2f', q='2', ocode='2', ocodeu='2'),
+    dict(maps=UNITLESS_MAPS, name='misinform', icode='2f', q='2', ocode='2d', ocodeu='2d'),
     dict(maps=UNITLESS_MAPS, name='whetstone', icode='2f5', q='2.5', ocode='2d5', ocodeu='2d5'),
     dict(maps=UNITLESS_MAPS, name='funny', icode='2pF5', q='2.5 pF', ocode='2p5', ocodeu='2pF5'),
     dict(maps=UNITLESS_MAPS, name='shallot', icode='h220', q='220m', ocode='220m', ocodeu='220m'),
-    dict(maps=UNITLESS_MAPS, name='sniper', icode='2l', q='2', ocode='2', ocodeu='2'),
+    dict(maps=UNITLESS_MAPS, name='sniper', icode='2l', q='2', ocode='2d', ocodeu='2d'),
     dict(maps=UNITLESS_MAPS, name='pajama', icode='2l5', q='2.5', ocode='2d5', ocodeu='2d5'),
     dict(maps=UNITLESS_MAPS, name='prose', icode='2pH5', q='2.5 pH', ocode='2p5', ocodeu='2pH5'),
     dict(maps=UNITLESS_MAPS, name='gaffe', icode='p2pH5', q='2.5 pH', ocode='2p5', ocodeu='2pH5'),
@@ -38,7 +38,7 @@ testcases = [
     dict(maps=IEC60062_MAPS, name='tilde', icode='R47', q='470 mΩ', ocode='470m', ocodeu='470mΩ'),
     dict(maps=IEC60062_MAPS, name='circlet', icode='R47', q='470 mΩ', ocode='470m', ocodeu='470mΩ'),
     dict(maps=IEC60062_MAPS, name='polygon', icode='4R7', q='4.7 Ω', ocode='4r7', ocodeu='4Ω7'),
-    dict(maps=IEC60062_MAPS, name='hacksaw', icode='470R', q='470 Ω', ocode='470', ocodeu='470Ω'),
+    dict(maps=IEC60062_MAPS, name='hacksaw', icode='470R', q='470 Ω', ocode='470r', ocodeu='470Ω'),
     dict(maps=IEC60062_MAPS, name='spurt', icode='4K7', q='4.7 kΩ', ocode='4K7', ocodeu='4KΩ7'),
     dict(maps=IEC60062_MAPS, name='corkscrew', icode='4K7Ω', q='4.7 kΩ', ocode='4K7', ocodeu='4KΩ7'),
     dict(maps=IEC60062_MAPS, name='cemetery', icode='47K', q='47 kΩ', ocode='47K', ocodeu='47KΩ'),
@@ -49,7 +49,7 @@ testcases = [
     dict(maps=IEC60062_MAPS, name='pioneer', icode='2v5', q='2.5 v', ocode='2v5', ocodeu='2v5'),
     dict(maps=IEC60062_MAPS, name='pretense', icode='2nA5', q='2.5 nA', ocode='2n5', ocodeu='2nA5'),
     dict(maps=IEC60062_MAPS, name='caress', icode='f220', q='220a', ocode='220a', ocodeu='220a'),
-    dict(maps=IEC60062_MAPS, name='tassel', icode='2c', q='2 F', ocode='2', ocodeu='2F'),
+    dict(maps=IEC60062_MAPS, name='tassel', icode='2c', q='2 F', ocode='2c', ocodeu='2F'),
     dict(maps=IEC60062_MAPS, name='hundred', icode='2c5', q='2.5 F', ocode='2c5', ocodeu='2F5'),
     dict(maps=IEC60062_MAPS, name='speckle', icode='2f', q='2f', ocode='2f', ocodeu='2f'),
     dict(maps=IEC60062_MAPS, name='pachyderm', icode='2f5', q='2.5f', ocode='2f5', ocodeu='2f5'),
@@ -66,10 +66,10 @@ testcases = [
     dict(maps=IEC60062_MAPS, name='discord', icode='470l', q='470 mΩ', ocode='470m', ocodeu='470mΩ'),
     dict(maps=IEC60062_MAPS, name='eunuch', icode='r47', q='470 mΩ', ocode='470m', ocodeu='470mΩ'),
     dict(maps=IEC60062_MAPS, name='jewel', icode='4r7', q='4.7 Ω', ocode='4r7', ocodeu='4Ω7'),
-    dict(maps=IEC60062_MAPS, name='mudguard', icode='47r', q='47 Ω', ocode='47', ocodeu='47Ω'),
-    dict(maps=IEC60062_MAPS, name='kebab', icode='470r', q='470 Ω', ocode='470', ocodeu='470Ω'),
-    dict(maps=IEC60062_MAPS, name='chomp', icode='k47', q='470 Ω', ocode='470', ocodeu='470Ω'),
-    dict(maps=IEC60062_MAPS, name='gambol', icode='K47', q='470 Ω', ocode='470', ocodeu='470Ω'),
+    dict(maps=IEC60062_MAPS, name='mudguard', icode='47r', q='47 Ω', ocode='47r', ocodeu='47Ω'),
+    dict(maps=IEC60062_MAPS, name='kebab', icode='470r', q='470 Ω', ocode='470r', ocodeu='470Ω'),
+    dict(maps=IEC60062_MAPS, name='chomp', icode='k47', q='470 Ω', ocode='470r', ocodeu='470Ω'),
+    dict(maps=IEC60062_MAPS, name='gambol', icode='K47', q='470 Ω', ocode='470r', ocodeu='470Ω'),
     dict(maps=IEC60062_MAPS, name='interject', icode='4k7', q='4.7 kΩ', ocode='4K7', ocodeu='4KΩ7'),
     dict(maps=IEC60062_MAPS, name='thank', icode='4K7', q='4.7 kΩ', ocode='4K7', ocodeu='4KΩ7'),
     dict(maps=IEC60062_MAPS, name='edify', icode='47k', q='47 kΩ', ocode='47K', ocodeu='47KΩ'),
@@ -87,12 +87,29 @@ testcases = [
     dict(maps=IEC60062_MAPS, name='emerge', icode='4700G', q='4.7 TΩ', ocode='4T7', ocodeu='4TΩ7'),  # uses invalid sf
     dict(maps=IEC60062_MAPS, name='guardsman', icode='4MHz70', q='4.7 MHz', ocode='4M7', ocodeu='4MHz7'),
 ]
+more_testcases = '''
+    470e-9Ω    0           0R          0Ω          R0000
+    4.7e-6Ω    0           0R          0Ω          R0000
+    47e-6Ω     0           0R          0Ω          R0000
+    470e-6Ω    R0005       R0005       Ω0005       R0005
+    4.7e-3Ω    R0047       R0047       Ω0047       R0047
+    47e-3Ω     R047        R047        Ω047        R0470
+    470e-3Ω    R47         R47         Ω47         R4700
+    4.7Ω       4R7         4R7         4Ω7         4R7000
+    47Ω        47          47R         47Ω         47R000
+    470Ω       470         470R        470Ω        470R00
+    4.7kΩ      4K7         4K7         4KΩ7        4K7000
+    47kΩ       47K         47K         47KΩ        47K000
+    470kΩ      470K        470K        470KΩ       470K00
+'''
+
 
 def test_rkm_codes():
     # set maps to their default behavior
     set_prefs(
         rkm_maps=None, units_to_rkm_base_code=None, map_sf=None,
-        show_units=None, strip_zeros=None, minus_sign=None, prec=None
+        show_units=None, strip_zeros=None, minus_sign=None, prec=None,
+        strip_code=False
     )
 
     # run tests
@@ -124,7 +141,8 @@ def test_misc():
     # set maps to their default behavior
     set_prefs(
         rkm_maps=None, units_to_rkm_base_code=None, map_sf=None,
-        show_units=None, strip_zeros=None, minus_sign=None, prec=None
+        show_units=None, strip_zeros=None, minus_sign=None, prec=None,
+        strip_code=True
     )
 
     c = Quantity(2)
@@ -137,12 +155,27 @@ def test_misc():
     assert to_rkm(c, strip_zeros=False) == '20'
     assert to_rkm(c, strip_zeros=False, prec=5) == '20d0000'
 
+    c = 20
+    assert to_rkm(c) == '20'
+    assert to_rkm(c, strip_zeros=False) == '20'
+    assert to_rkm(c, strip_zeros=False, prec=5) == '20d0000'
+
+    c = 20.0
+    assert to_rkm(c) == '20'
+    assert to_rkm(c, strip_zeros=False) == '20'
+    assert to_rkm(c, strip_zeros=False, prec=5) == '20d0000'
+
     c = Quantity(2, units='Ω')
     assert to_rkm(c) == '2'
     assert to_rkm(c, strip_zeros=False) == '2r0'
     assert to_rkm(c, strip_zeros=False, prec=5) == '2r00000'
 
     c = Quantity(20, units='Ω')
+    assert to_rkm(c) == '20'
+    assert to_rkm(c, strip_zeros=False) == '20'
+    assert to_rkm(c, strip_zeros=False, prec=5) == '20r0000'
+
+    c = '20Ω'
     assert to_rkm(c) == '20'
     assert to_rkm(c, strip_zeros=False) == '20'
     assert to_rkm(c, strip_zeros=False, prec=5) == '20r0000'
@@ -167,3 +200,22 @@ def test_misc():
 
     # return maps to their default behavior
     set_prefs(rkm_maps=None, units_to_rkm_base_code=None, map_sf=None)
+
+
+def test_more_rkm_codes():
+    set_prefs(
+        rkm_maps=IEC60062_MAPS, units_to_rkm_base_code={'Ω': 'R'}, map_sf=None,
+        show_units=None, strip_zeros=None, strip_code=True, minus_sign=None,
+        prec=4
+    )
+
+    for line in more_testcases.splitlines():
+        if not line:
+            continue
+        q, a, b, c, d = line.split()
+        q = Quantity(q)
+        q.output_sf = 'TGMk'
+        assert a == to_rkm(q), 'sarong {}'.format(q)
+        assert b == to_rkm(q, strip_code=False), 'wader {}'.format(q)
+        assert c == to_rkm(q, show_units=True), 'footprint {}'.format(q)
+        assert d == to_rkm(q, strip_zeros=False), 'scabby {}'.format(q)

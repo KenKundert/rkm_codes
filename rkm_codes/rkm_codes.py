@@ -131,9 +131,12 @@ UNITS_TO_RKM_BASE_CODE = {
 # map scale factors {{{2
 # Controls the scale factors produced by to_rkm().
 MAP_SF = dict(u='μ', k='K')
+
+# others {{{2
 MINUS_SIGN = 'n'
 SHOW_UNITS = False
 STRIP_ZEROS = True
+STRIP_CODE = True
 PREC = 1
 
 # utilities {{{1
@@ -149,10 +152,11 @@ _minus_sign = MINUS_SIGN
 _show_units = SHOW_UNITS
 _prec = PREC
 _strip_zeros = STRIP_ZEROS
+_strip_code = STRIP_CODE
 
 def set_prefs(
     rkm_maps=False, units_to_rkm_base_code=False, map_sf=False,
-    show_units=0, strip_zeros=0, minus_sign=False, prec=False
+    show_units='', strip_zeros='', strip_code='', minus_sign=False, prec=False
 ):
     '''Set Preferences
 
@@ -180,8 +184,11 @@ def set_prefs(
             behavior of *to_rkm()*.
         show_units (bool):
             Whether the units should be included in the RKM code.
-        stripzeros (bool):
+        strip_zeros (bool):
             Whether the units should be included in the RKM code.
+        strip_code (bool):
+            Whether the base code should be removed from the end of the RKM code
+            (eg: 470 → 470 if true and 470r otherwise).
         minus_sign (str):
             Character to use to indicate a negative value. The default is 'n',
             but 'm' is also common.
@@ -189,7 +196,7 @@ def set_prefs(
             Precision. Number of digits shown in 1 plus this number.
     '''
     global _rkm_maps, _units_to_rkm_base_code, _map_sf
-    global _show_units, _strip_zeros, _minus_sign, _prec
+    global _show_units, _strip_zeros, _strip_code, _minus_sign, _prec
 
     if rkm_maps is None:
         _rkm_maps = UNITLESS_MAPS
@@ -208,13 +215,18 @@ def set_prefs(
 
     if show_units is None:
         _show_units = SHOW_UNITS
-    elif show_units != 0:
+    elif show_units != '':
         _show_units = show_units
 
     if strip_zeros is None:
         _strip_zeros = STRIP_ZEROS
-    elif strip_zeros != 0:
+    elif strip_zeros != '':
         _strip_zeros = strip_zeros
+
+    if strip_code is None:
+        _strip_code = STRIP_ZEROS
+    elif strip_code != '':
+        _strip_code = strip_code
 
     if minus_sign is None:
         _minus_sign = MINUS_SIGN
@@ -265,13 +277,13 @@ def from_rkm(code):
             return Quantity(''.join(cull([sign, ld,  '.',  td,  sf, units])))
 
 # to_rkm {{{1
-def to_rkm(q, prec=None, show_units=None, strip_zeros=None):
+def to_rkm(q, prec=None, show_units=None, strip_zeros=None, strip_code=None):
     '''To RKM
 
     Convert a quantiphy.Quantity to an RKM string.
 
     Args:
-        q (quantiphy.Quantity):
+        q (quantiphy.Quantity, str, or float):
             The value to be converted to an RKM code.
         prec (int):
             The precision. The number of digits is the precision + 1.
@@ -280,6 +292,9 @@ def to_rkm(q, prec=None, show_units=None, strip_zeros=None):
             (default is False).
         strip_zeros (bool):
             Whether excess zeros should be removed (default is True).
+        strip_code (bool):
+            Whether the base code should be removed from the end of the RKM code
+            (eg: 470 → 470 if true and 470r otherwise).
     Returns:
         A quantiphy.Quantity if a valid RKM code was found, otherwise *None* is
         returned.
@@ -288,16 +303,34 @@ def to_rkm(q, prec=None, show_units=None, strip_zeros=None):
         show_units = _show_units
     if strip_zeros is None:
         strip_zeros = _strip_zeros
+    if strip_code is None:
+        strip_code = _strip_code
     if prec is None:
         prec = _prec
-    units = q.units if show_units else ''
-    rkm_base_code = _units_to_rkm_base_code.get(q.units, q.units)
+    try:
+        units = q.units
+    except AttributeError:
+        q = Quantity(q)
+        units = q.units
+    rkm_base_code = _units_to_rkm_base_code.get(units, units)
+    if not rkm_base_code:
+        rkm_base_code = 'd'
+    if not show_units:
+        units = ''
 
     value = q.render(
         form='si', show_units=False, strip_zeros=False, strip_radix=False, 
         prec=prec
     )
-    value = value.replace('-', _minus_sign)
+    if 'e-' in value:
+        value = q.render(
+            form='fixed', show_units=False, strip_zeros=False, strip_radix=False, 
+            prec=prec
+        )
+    is_negative = value.startswith('-')
+    if is_negative:
+        value = value[1:]
+
     sf = value[-1]
     if sf and sf in q.output_sf:
         value = value[:-1]
@@ -309,14 +342,19 @@ def to_rkm(q, prec=None, show_units=None, strip_zeros=None):
         value += '.'
     if strip_zeros:
         value = value.rstrip('0')
-    if not sf and value[-1] != '.':
+    if value.startswith('0.') and value[-1] != '.':
+        value = value[1:]
+    if not sf:
         if units:
             sf = units
             units = ''
         else:
-            sf = 'd'
-    if sf == rkm_base_code:
+            sf = rkm_base_code
+    if strip_code and sf == rkm_base_code:
         value = value.rstrip('.')
+    if is_negative:
+        value = '-' + value
+    value = value.replace('-', _minus_sign)
     return value.replace('.', _map_sf.get(sf, sf)+units)
 
 # find_rkm {{{1

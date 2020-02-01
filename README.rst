@@ -123,6 +123,18 @@ always overrides any implied units::
     >>> i
     Quantity('2.5 uA')
 
+The primary argument for *to_rkm* can be a string, a float, or a quantity::
+
+    >>> print(to_rkm('12.5 nA', prec=2))
+    12n5
+
+    >>> print(to_rkm(12.5e-9, prec=2))
+    12n5
+
+    >>> from quantiphy import Quantity
+    >>> print(to_rkm(Quantity('12.5 nA'), prec=2))
+    12n5
+
 When converting to an RKM code, you can instruct that the units be included::
 
     >>> to_rkm(i, show_units=True)
@@ -137,6 +149,77 @@ Normally, any excess zeros are removed, but you can change that too::
 
     >>> to_rkm(i.add(1e-9), prec=5, show_units=True, strip_zeros=False)
     '2μA50100'
+
+To shorten the output code it is possible to remove the base code when it is 
+extraneous::
+
+    >>> from quantiphy import Quantity
+    >>> to_rkm(Quantity('470Ω'), show_units=False)
+    '470'
+
+    >>> to_rkm(Quantity('470Ω'), show_units=False, strip_code=False)
+    '470r'
+
+Here is a short program that illustrates some of the options of *to_rkm*::
+
+    >>> from rkm_codes import from_rkm, to_rkm, set_prefs, IEC60062_MAPS
+
+    >>> set_prefs(prec=4)
+
+    >>> q = from_rkm('0μΩ47')
+    >>> while q < 1e6:
+    ...     vals = [
+    ...         q,
+    ...         to_rkm(q),
+    ...         to_rkm(q, strip_code=False),
+    ...         to_rkm(q, show_units=True),
+    ...         to_rkm(q, strip_zeros=False)
+    ...     ]
+    ...     print(' '.join(['  {:<9}'.format(v) for v in vals]).strip())
+    ...     q = q.scale(10)
+    470 nΩ      470n        470n        470nΩ       470n00
+    4.7 uΩ      4μ7         4μ7         4μΩ7        4μ7000
+    47 uΩ       47μ         47μ         47μΩ        47μ000
+    470 uΩ      470μ        470μ        470μΩ       470μ00
+    4.7 mΩ      4m7         4m7         4mΩ7        4m7000
+    47 mΩ       47m         47m         47mΩ        47m000
+    470 mΩ      470m        470m        470mΩ       470m00
+    4.7 Ω       4r7         4r7         4Ω7         4r7000
+    47 Ω        47          47r         47Ω         47r000
+    470 Ω       470         470r        470Ω        470r00
+    4.7 kΩ      4K7         4K7         4KΩ7        4K7000
+    47 kΩ       47K         47K         47KΩ        47K000
+    470 kΩ      470K        470K        470KΩ       470K00
+
+If you prefer not to use the small SI scale factors, which would be more in 
+keeping with IEC60062 for resistors, you can specify that ``quantiphy.Quantity``
+use a restricted ``output_sf``::
+
+    >>> q = from_rkm('0μΩ47')
+    >>> q.output_sf = 'TGMk'   # this line is new
+    >>> while q < 1e6:
+    ...     vals = [
+    ...         q,
+    ...         to_rkm(q),
+    ...         to_rkm(q, strip_code=False),
+    ...         to_rkm(q, show_units=True),
+    ...         to_rkm(q, strip_zeros=False)
+    ...     ]
+    ...     print(' '.join(['  {:<9}'.format(v) for v in vals]).strip())
+    ...     q = q.scale(10)
+    470e-9 Ω    0           0r          0Ω          r0000
+    4.7e-6 Ω    0           0r          0Ω          r0000
+    47e-6 Ω     0           0r          0Ω          r0000
+    470e-6 Ω    r0005       r0005       Ω0005       r0005
+    4.7e-3 Ω    r0047       r0047       Ω0047       r0047
+    47e-3 Ω     r047        r047        Ω047        r0470
+    470e-3 Ω    r47         r47         Ω47         r4700
+    4.7 Ω       4r7         4r7         4Ω7         4r7000
+    47 Ω        47          47r         47Ω         47r000
+    470 Ω       470         470r        470Ω        470r00
+    4.7 kΩ      4K7         4K7         4KΩ7        4K7000
+    47 kΩ       47K         47K         47KΩ        47K000
+    470 kΩ      470K        470K        470KΩ       470K00
 
 You can create your own maps by passing in a dictionary that maps a RKM base 
 code character into a scale factor and units. For example, you could create 
@@ -266,8 +349,13 @@ Releases
     | Version: 0.4.1
     | Released: 2020-01-23
 
+**0.5 (2020-01-31)**:
+    - Allow argument to *to_rkm()* to be a string or simple number
+    - Added *strip_code* preference
+    - With small numbers show 0 rather than exponent
+
 **0.4 (2019-08-29)**:
-    - added find_rkm()
+    - added *find_rkm()*
 
 **0.3 (2019-08-23)**:
     - move the units to the middle of the number with the scale factor
