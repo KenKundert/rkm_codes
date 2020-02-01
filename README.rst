@@ -349,7 +349,7 @@ Releases
     | Version: 0.4.1
     | Released: 2020-01-23
 
-**0.5 (2020-01-31)**:
+**0.5 (2020-02-01)**:
     - Allow argument to *to_rkm()* to be a string or simple number
     - Added *strip_code* preference
     - With small numbers show 0 rather than exponent
