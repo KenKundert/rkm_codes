@@ -9,8 +9,8 @@
 RKM codes
 =========
 
-| Version: 0.4.2
-| Released: 2020-01-31
+| Version: 0.5.0
+| Released: 2020-03-03
 |
 
 .. image:: https://img.shields.io/travis/KenKundert/rkm_codes/master.svg
@@ -346,8 +346,8 @@ Releases
 --------
 
 **Latest development release**:
-    | Version: 0.4.2
-    | Released: 2020-01-31
+    | Version: 0.5.0
+    | Released: 2020-03-03
 
 **0.5 (2020-02-01)**:
     - Allow argument to *to_rkm()* to be a string or simple number
