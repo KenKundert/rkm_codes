@@ -59,8 +59,8 @@ testcases = [
     dict(maps=IEC60062_MAPS, name='story', icode='2l5', q='2.5 mΩ', ocode='2m5', ocodeu='2mΩ5'),
     dict(maps=IEC60062_MAPS, name='vexation', icode='2pH5', q='2.5 pH', ocode='2p5', ocodeu='2pH5'),
 
-    dict(maps=IEC60062_MAPS, name='grandpa', icode='l047', q='47 uΩ', ocode='47μ', ocodeu='47μΩ'),  # using invalid sf
-    dict(maps=IEC60062_MAPS, name='stock', icode='l47', q='470 uΩ', ocode='470μ', ocodeu='470μΩ'), # using invalid sf
+    dict(maps=IEC60062_MAPS, name='grandpa', icode='l047', q='47 uΩ', ocode='47µ', ocodeu='47µΩ'),  # using invalid sf
+    dict(maps=IEC60062_MAPS, name='stock', icode='l47', q='470 uΩ', ocode='470µ', ocodeu='470µΩ'), # using invalid sf
     dict(maps=IEC60062_MAPS, name='speedwell', icode='4l7', q='4.7 mΩ', ocode='4m7', ocodeu='4mΩ7'),
     dict(maps=IEC60062_MAPS, name='instinct', icode='47l', q='47 mΩ', ocode='47m', ocodeu='47mΩ'),
     dict(maps=IEC60062_MAPS, name='discord', icode='470l', q='470 mΩ', ocode='470m', ocodeu='470mΩ'),
@@ -89,9 +89,19 @@ testcases = [
 ]
 more_testcases = '''
     470e-9Ω    0           0R          0Ω          R0000
+    470nΩ      0           0R          0Ω          R0000
     4.7e-6Ω    0           0R          0Ω          R0000
+    4.7µΩ      0           0R          0Ω          R0000
+    4.7uΩ      0           0R          0Ω          R0000
+    4.7μΩ      0           0R          0Ω          R0000
     47e-6Ω     0           0R          0Ω          R0000
+    47µΩ       0           0R          0Ω          R0000
+    47uΩ       0           0R          0Ω          R0000
+    47μΩ       0           0R          0Ω          R0000
     470e-6Ω    R0005       R0005       Ω0005       R0005
+    470µΩ      R0005       R0005       Ω0005       R0005
+    470uΩ      R0005       R0005       Ω0005       R0005
+    470μΩ      R0005       R0005       Ω0005       R0005
     4.7e-3Ω    R0047       R0047       Ω0047       R0047
     47e-3Ω     R047        R047        Ω047        R0470
     470e-3Ω    R47         R47         Ω47         R4700
@@ -219,3 +229,31 @@ def test_more_rkm_codes():
         assert b == to_rkm(q, strip_code=False), 'wader {}'.format(q)
         assert c == to_rkm(q, show_units=True), 'footprint {}'.format(q)
         assert d == to_rkm(q, strip_zeros=False), 'scabby {}'.format(q)
+
+
+    set_prefs(prec=1)
+
+    with Quantity.prefs(
+        map_sf = Quantity.map_sf_to_sci_notation,
+        spacer = Quantity.narrow_non_breaking_space,
+        plus = Quantity.plus_sign,
+        minus = Quantity.minus_sign
+    ):
+        r = from_rkm('6k8')
+        assert r == Quantity('6.8 kΩ')
+        assert to_rkm(r) == '6K8'
+
+        c = Quantity('2.5 nF')
+        assert to_rkm(c) == '2n5'
+
+        c = from_rkm('4u7')
+        assert c == Quantity('4.7 μF')
+        assert to_rkm(c) == '4µ7'
+
+        c = Quantity('4.7 µF')
+        assert to_rkm(c) == '4µ7'
+        c = Quantity('4.7 uF')
+        assert to_rkm(c) == '4µ7'
+        c = Quantity('4.7 μF')
+        assert to_rkm(c) == '4µ7'
+

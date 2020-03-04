@@ -138,17 +138,17 @@ The primary argument for *to_rkm* can be a string, a float, or a quantity::
 When converting to an RKM code, you can instruct that the units be included::
 
     >>> to_rkm(i, show_units=True)
-    '2μA5'
+    '2µA5'
 
 You can also indicate how many digits should be included::
 
     >>> to_rkm(i.add(1e-9), prec=5, show_units=True)
-    '2μA501'
+    '2µA501'
 
 Normally, any excess zeros are removed, but you can change that too::
 
     >>> to_rkm(i.add(1e-9), prec=5, show_units=True, strip_zeros=False)
-    '2μA50100'
+    '2µA50100'
 
 To shorten the output code it is possible to remove the base code when it is
 extraneous::
@@ -178,9 +178,9 @@ Here is a short program that illustrates some of the options of *to_rkm*::
     ...     print(' '.join(['  {:<9}'.format(v) for v in vals]).strip())
     ...     q = q.scale(10)
     470 nΩ      470n        470n        470nΩ       470n00
-    4.7 uΩ      4μ7         4μ7         4μΩ7        4μ7000
-    47 uΩ       47μ         47μ         47μΩ        47μ000
-    470 uΩ      470μ        470μ        470μΩ       470μ00
+    4.7 uΩ      4µ7         4µ7         4µΩ7        4µ7000
+    47 uΩ       47µ         47µ         47µΩ        47µ000
+    470 uΩ      470µ        470µ        470µΩ       470µ00
     4.7 mΩ      4m7         4m7         4mΩ7        4m7000
     47 mΩ       47m         47m         47mΩ        47m000
     470 mΩ      470m        470m        470mΩ       470m00

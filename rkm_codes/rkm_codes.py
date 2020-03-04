@@ -89,8 +89,9 @@ IEC60062_MAPS = {
     'F': ('', 'F'),
     'm': ('m', 'F'),
     'm': ('m', 'F'),
-    'u': ('μ', 'F'),
-    'μ': ('μ', 'F'),
+    'u': ('µ', 'F'),
+    'μ': ('µ', 'F'),
+    'µ': ('µ', 'F'),
     'n': ('n', 'F'),
     'p': ('p', 'F'),
 }
@@ -130,7 +131,8 @@ UNITS_TO_RKM_BASE_CODE = {
 
 # map scale factors {{{2
 # Controls the scale factors produced by to_rkm().
-MAP_SF = dict(u='μ', k='K')
+#MAP_SF = dict(u='μ', k='K')  # this is mu
+MAP_SF = dict(u='µ', k='K')  # this is micro
 
 # others {{{2
 MINUS_SIGN = 'n'
@@ -318,15 +320,16 @@ def to_rkm(q, prec=None, show_units=None, strip_zeros=None, strip_code=None):
     if not show_units:
         units = ''
 
-    value = q.render(
-        form='si', show_units=False, strip_zeros=False, strip_radix=False, 
+    with q.prefs(
+        map_sf={},
+        show_units=False,
+        strip_zeros=False,
+        strip_radix=False,
         prec=prec
-    )
-    if 'e-' in value:
-        value = q.render(
-            form='fixed', show_units=False, strip_zeros=False, strip_radix=False, 
-            prec=prec
-        )
+    ):
+        value = q.render(form='si')
+        if 'e-' in value:
+            value = q.render(form='fixed')
     is_negative = value.startswith('-')
     if is_negative:
         value = value[1:]
