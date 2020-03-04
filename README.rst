@@ -51,16 +51,16 @@ the decimal point is replaced by the scale factor. For example, a resistance of
 a letter that signifies the type of the component.  For example, a resistance of
 4.7Ω becomes 4r7.
 
-Resistance examples:
+Resistance examples::
 
-    | R47 → 0.47 Ω
-    | 4R7 → 4.7 Ω
-    | 470R → 470 Ω
-    | 4K7 → 4.7 kΩ
-    | 47K → 47 kΩ
-    | 47K3 → 47.3 kΩ
-    | 470K → 470 kΩ
-    | 4M7 → 4.7 MΩ
+    R47 → 0.47 Ω
+    4R7 → 4.7 Ω
+    470R → 470 Ω
+    4K7 → 4.7 kΩ
+    47K → 47 kΩ
+    47K3 → 47.3 kΩ
+    470K → 470 kΩ
+    4M7 → 4.7 MΩ
 
 In the standard, large values are assumed to be resistances and small values are
 assumed to be capacitances.  So 4k7 is a resistance and 2n5 is a capacitance.
@@ -277,7 +277,7 @@ Finding RKM Codes
 -----------------
 
 *find_rkm* is available for finding the RKM codes embedded in text strings.
-Using it, you can iterate through all the numbers specified using RKM:
+Using it, you can iterate through all the numbers specified using RKM::
 
     >>> from rkm_codes import find_rkm
 
@@ -301,7 +301,7 @@ Using it, you can iterate through all the numbers specified using RKM:
 When the RKM code is not isolated by punctuation or spaces it can get confused
 by leading and trailing text.  You can often resolve this issue by restricting
 the matches to either the leading or trailing digit forms of the RKM code. Do so
-by specifying either 'ld' or 'td' as a second argument.  For example:
+by specifying either 'ld' or 'td' as a second argument.  For example::
 
     >>> for num in find_rkm('sink200nA'):
     ...     print(num)
