@@ -69,7 +69,7 @@ types, such as voltage, current, and inductance.
 Installing
 ----------
 
-This package converts RKM codes to `QuantiPhy Quantities 
+This package converts RKM codes to `QuantiPhy Quantities
 <https://quantiphy.readthedocs.io>`_ and Quantities to RKM codes.
 
 Install with::
@@ -82,7 +82,7 @@ Requires Python3.4 or better.
 Converting to and from RKM Codes
 --------------------------------
 
-The following is a simple example of how to convert back and forth between RKM 
+The following is a simple example of how to convert back and forth between RKM
 codes and Quantities::
 
     >>> from rkm_codes import from_rkm, to_rkm
@@ -93,10 +93,10 @@ codes and Quantities::
     >>> to_rkm(r)
     '6K8'
 
-Notice that in this case the quantity does not include units. That is because by 
-default *rkm_codes* assumes unitless numbers. You can change this behavior.  Out 
-of the box *rkm_codes* supports two kinds of numbers, unitless and those that 
-follow the IEC60062 standard. You can switch between those two kinds of numbers 
+Notice that in this case the quantity does not include units. That is because by
+default *rkm_codes* assumes unitless numbers. You can change this behavior.  Out
+of the box *rkm_codes* supports two kinds of numbers, unitless and those that
+follow the IEC60062 standard. You can switch between those two kinds of numbers
 using something like this::
 
     >>> from rkm_codes import set_prefs, IEC60062_MAPS, UNITLESS_MAPS
@@ -112,7 +112,7 @@ using something like this::
     >>> from_rkm('6k8')
     Quantity('6.8k')
 
-In either case, *rkm_codes* allows you to explicitly specify the units, which 
+In either case, *rkm_codes* allows you to explicitly specify the units, which
 always overrides any implied units::
 
     >>> set_prefs(rkm_maps=UNITLESS_MAPS)
@@ -150,7 +150,7 @@ Normally, any excess zeros are removed, but you can change that too::
     >>> to_rkm(i.add(1e-9), prec=5, show_units=True, strip_zeros=False)
     '2μA50100'
 
-To shorten the output code it is possible to remove the base code when it is 
+To shorten the output code it is possible to remove the base code when it is
 extraneous::
 
     >>> from quantiphy import Quantity
@@ -191,7 +191,7 @@ Here is a short program that illustrates some of the options of *to_rkm*::
     47 kΩ       47K         47K         47KΩ        47K000
     470 kΩ      470K        470K        470KΩ       470K00
 
-If you prefer not to use the small SI scale factors, which would be more in 
+If you prefer not to use the small SI scale factors, which would be more in
 keeping with IEC60062 for resistors, you can specify that ``quantiphy.Quantity``
 use a restricted ``output_sf``::
 
@@ -221,9 +221,9 @@ use a restricted ``output_sf``::
     47 kΩ       47K         47K         47KΩ        47K000
     470 kΩ      470K        470K        470KΩ       470K00
 
-You can create your own maps by passing in a dictionary that maps a RKM base 
-code character into a scale factor and units. For example, you could create 
-a map that uses 'd' or 'D' to represent the decimal point in numbers without 
+You can create your own maps by passing in a dictionary that maps a RKM base
+code character into a scale factor and units. For example, you could create
+a map that uses 'd' or 'D' to represent the decimal point in numbers without
 scale factors rather than 'r', 'c', etc.  For example::
 
     >>> set_prefs(rkm_maps=dict(d=('', ''), D=('', '')))
@@ -235,16 +235,16 @@ scale factors rather than 'r', 'c', etc.  For example::
 
 Passing *None* for the value of a map returns it to its default value.
 
-If *rkm_codes* encounters a RKM base code character that is not in the map, it 
+If *rkm_codes* encounters a RKM base code character that is not in the map, it
 simply uses that character. In this way, scale factors are handled::
 
     >>> from_rkm('6k8')
     Quantity('6.8k')
 
-When converting from Quantities to RKM codes, you can override the default 
-mappings from units to RKM base code characters. The default mapping maps 'Ω' 
-and 'Ohm' to 'r', 'F' to 'c', 'H' to 'l', 'V' to 'v', and 'A' to 'i'.  However, 
-you may prefer uppercase base characters, which is more in alignment with the 
+When converting from Quantities to RKM codes, you can override the default
+mappings from units to RKM base code characters. The default mapping maps 'Ω'
+and 'Ohm' to 'r', 'F' to 'c', 'H' to 'l', 'V' to 'v', and 'A' to 'i'.  However,
+you may prefer uppercase base characters, which is more in alignment with the
 original standard. To get that, you can use something like this::
 
     >>> rkm_base_code_mappings = {
@@ -260,9 +260,9 @@ original standard. To get that, you can use something like this::
     >>> to_rkm(r)
     '1R2'
 
-You can control the scale factors used by to_rkm() by setting *map_sf* using 
-*set_prefs*. The default maps 'u' to 'μ' and 'k' to 'K'. You might wish to 
-prevent the use of 'μ' while retaining the use of 'K', which you can do with:
+You can control the scale factors used by to_rkm() by setting *map_sf* using
+*set_prefs*. The default maps 'u' to 'μ' and 'k' to 'K'. You might wish to
+prevent the use of 'μ' while retaining the use of 'K', which you can do with::
 
     >>> set_prefs(map_sf=dict(u='µ'))
     >>> c = from_rkm('5u')
@@ -273,7 +273,7 @@ prevent the use of 'μ' while retaining the use of 'K', which you can do with:
 Finding RKM Codes
 -----------------
 
-*find_rkm* is available for finding the RKM codes embedded in text strings.  
+*find_rkm* is available for finding the RKM codes embedded in text strings.
 Using it, you can iterate through all the numbers specified using RKM:
 
     >>> from rkm_codes import find_rkm
@@ -295,9 +295,9 @@ Using it, you can iterate through all the numbers specified using RKM:
     470 kΩ
     4.7 MΩ
 
-When the RKM code is not isolated by punctuation or spaces it can get confused 
-by leading and trailing text.  You can often resolve this issue by restricting 
-the matches to either the leading or trailing digit forms of the RKM code. Do so 
+When the RKM code is not isolated by punctuation or spaces it can get confused
+by leading and trailing text.  You can often resolve this issue by restricting
+the matches to either the leading or trailing digit forms of the RKM code. Do so
 by specifying either 'ld' or 'td' as a second argument.  For example:
 
     >>> for num in find_rkm('sink200nA'):
@@ -312,9 +312,9 @@ by specifying either 'ld' or 'td' as a second argument.  For example:
 Pin Name Generator Example
 --------------------------
 
-As a practical example of the use of RKM codes, imagine wanting a program that 
-creates pin names for an electrical circuit based on a naming convention.  It 
-would take a table of pin characteristics that are used to create the names.  
+As a practical example of the use of RKM codes, imagine wanting a program that
+creates pin names for an electrical circuit based on a naming convention.  It
+would take a table of pin characteristics that are used to create the names.
 For example::
 
     >>> from quantiphy import Quantity
@@ -361,7 +361,7 @@ Releases
     - move the units to the middle of the number with the scale factor
     - added support for signed numbers
     - added *show_units*, *strip_zeros*, *minus_sign*, and *prec* to preferences
-    - this release is not backward compatible; units at the end of the number 
+    - this release is not backward compatible; units at the end of the number
       are no longer supported
 
 **0.2 (2018-09-14)**:
