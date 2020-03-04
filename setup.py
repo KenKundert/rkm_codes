@@ -12,6 +12,7 @@ setup(
     version='0.5.0',
     description='QuantiPhy support for RKM codes.',
     long_description=readme,
+    long_description_content_type='text/x-rst',
     author="Ken Kundert",
     author_email='rkm_codes@nurdletech.com',
     packages='rkm_codes'.split(),

@@ -36,14 +36,17 @@ notation is widely used in electrical engineering to denote the values of
 resistors and capacitors in circuit diagrams and in the production of electronic
 circuits (for example in bills of material and in silk screens). This method
 avoids overlooking the decimal separator, which may not be rendered reliably on
-components or when duplicating documents.  They also provide the benefit that
-the characters within a RKM code are either letters or digits, and so can be
-embedded within identifiers without introducing invalid characters.
+components or when duplicating documents.
+
+The popularity of RKM codes was fading because they address a problem that is 
+less common today. However they are making something of a come back as all the 
+characters in a RKM code are either letters or digits and so they can be 
+embedded in a software identifier without introducing illegal characters.
 
 IEC 60062 is described in https://en.wikipedia.org/wiki/RKM_code.
 
 Essentially an RKM version of a number is the number with a scale factor where
-the decimal point replaced by the scale factor. For example, a resistance of
+the decimal point is replaced by the scale factor. For example, a resistance of
 4.7kΩ becomes 4k7. If there is no scale factor, the decimal point is replaced by
 a letter that signifies the type of the component.  For example, a resistance of
 4.7Ω becomes 4r7.
