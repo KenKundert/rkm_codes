@@ -122,6 +122,7 @@ UNITLESS_MAPS = {
 # Controls the base code produced by to_rkm().
 UNITS_TO_RKM_BASE_CODE = {
     'Ω': 'r',
+    'Ω': 'r',
     'Ohm': 'r',
     'F': 'c',
     'H': 'l',
@@ -243,8 +244,8 @@ def set_prefs(
 # RKM code patterns {{{1
 # regex1 matches rkm codes that start with a digit.
 # regex2 matches rkm codes that end with a digit.
-ld_regex = r'([pmn]?)([0-9]+)([a-zµμΩ℧]+)([0-9]*)'
-td_regex = r'([pmn]?)([0-9]*)([a-zµμΩ℧]+)([0-9]+)'
+ld_regex = r'([pmn]?)([0-9]+)([a-zµμΩƱ]+)([0-9]*)'
+td_regex = r'([pmn]?)([0-9]*)([a-zµμΩƱ]+)([0-9]+)'
 combined_regex = '(?:{})|(?:{})'.format(ld_regex, td_regex)
 ld_matcher = re.compile(ld_regex, re.I)
 td_matcher = re.compile(td_regex, re.I)
