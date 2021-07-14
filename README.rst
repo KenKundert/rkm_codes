@@ -13,6 +13,9 @@ RKM codes
 | Released: 2020-03-03
 |
 
+.. image:: https://pepy.tech/badge/rkm_codes/month
+    :target: https://pepy.tech/project/rkm_codes
+
 .. image:: https://img.shields.io/travis/KenKundert/rkm_codes/master.svg
     :target: https://travis-ci.org/KenKundert/rkm_codes
 
