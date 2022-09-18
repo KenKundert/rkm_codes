@@ -1,0 +1,17 @@
+major: 0
+minor: 5
+patch: 0
+revision: 0
+type: release
+files:
+    setup.py:
+        version: version
+    rkm_codes/rkm_codes.py:
+        version: __version__
+        date: __released__
+    rkm_codes/__init__.py:
+        version: __version__
+        date: __released__
+    README.rst:
+        version: Version
+        date: Released
