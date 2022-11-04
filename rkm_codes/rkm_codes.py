@@ -132,7 +132,7 @@ UNITS_TO_RKM_BASE_CODE = {
 
 # map scale factors {{{2
 # Controls the scale factors produced by to_rkm().
-#MAP_SF = dict(u='μ', k='K')  # this is mu
+# MAP_SF = dict(u='μ', k='K')  # this is mu
 MAP_SF = dict(u='µ', k='K')  # this is micro
 
 # others {{{2
