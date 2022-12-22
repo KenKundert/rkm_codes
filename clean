@@ -8,7 +8,7 @@ rm -f */*.pyc */*.pyo
 rm -rf build *.egg-info dist __pycache__ .coverage .coverage-html .eggs htmlcov
 rm -f tests/{helloworld,test,ref}
 rm -f TEST REF
-rm -rf tests/.pytest_cache */__pycache__ .cache .pytest_cache
+rm -rf tests/.pytest_cache */__pycache__ .cache .pytest_cache .tox
 foreach i (*/clean)
     if ($i == "*/clean") break
     #echo $i
