@@ -16,7 +16,7 @@ RKM codes
 .. image:: https://pepy.tech/badge/rkm_codes/month
     :target: https://pepy.tech/project/rkm_codes
 
-.  image:: https://github.com/KenKundert/rkm_codes/actions/workflows/build.yaml/badge.svg
+..  image:: https://github.com/KenKundert/rkm_codes/actions/workflows/build.yaml/badge.svg
     :target: https://github.com/KenKundert/rkm_codes/actions/workflows/build.yaml
 
 .. image:: https://img.shields.io/coveralls/KenKundert/rkm_codes.svg
