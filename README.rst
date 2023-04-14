@@ -16,8 +16,8 @@ RKM codes
 .. image:: https://pepy.tech/badge/rkm_codes/month
     :target: https://pepy.tech/project/rkm_codes
 
-.. image:: https://img.shields.io/travis/KenKundert/rkm_codes/master.svg
-    :target: https://travis-ci.org/KenKundert/rkm_codes
+.  image:: https://github.com/KenKundert/rkm_codes/actions/workflows/build.yaml/badge.svg
+    :target: https://github.com/KenKundert/rkm_codes/actions/workflows/build.yaml
 
 .. image:: https://img.shields.io/coveralls/KenKundert/rkm_codes.svg
     :target: https://coveralls.io/r/KenKundert/rkm_codes
@@ -82,7 +82,7 @@ Install with::
 
     pip3 install --user rkm_codes
 
-Requires Python3.4 or better.
+Requires Python 3.6 or better.
 
 
 Converting to and from RKM Codes
