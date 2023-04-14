@@ -157,6 +157,10 @@ _prec = PREC
 _strip_zeros = STRIP_ZEROS
 _strip_code = STRIP_CODE
 
+# get rid of the new scale factors (QRrq) because the R scale factor interferes
+# with using R as a unit.
+Quantity.set_prefs(input_sf='YZEPTGMKk_cmuµμnpfazy')
+
 def set_prefs(
     rkm_maps=False, units_to_rkm_base_code=False, map_sf=False,
     show_units='', strip_zeros='', strip_code='', minus_sign=False, prec=False
@@ -164,7 +168,7 @@ def set_prefs(
     '''Set Preferences
 
     Use to set values that control the behavior of the RKM code.
-    Any values not passed in a left alone.
+    Any values not passed in are left alone.
     Pass in *None* to reset a preference to its default value.
 
     Args:
