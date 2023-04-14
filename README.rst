@@ -354,6 +354,9 @@ Releases
 **Latest development release**:
     | Version: 0.5.1
     | Released: 2023-04-14
+    - Suppress *rkm_code*’s use of the new SI scale factor in `QuantiPhy 
+      <https://quantiphy.readthedocs.io>`_ so that ``R`` is no longer treated as 
+      a scale factor when using the latest version of *QuantiPhy*.
 
 **0.5 (2020-02-01)**:
     - Allow argument to *to_rkm()* to be a string or simple number
