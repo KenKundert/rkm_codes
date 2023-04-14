@@ -9,8 +9,8 @@
 RKM codes
 =========
 
-| Version: 0.5.0
-| Released: 2020-03-03
+| Version: 0.5.1
+| Released: 2023-04-14
 |
 
 .. image:: https://pepy.tech/badge/rkm_codes/month
@@ -352,8 +352,8 @@ Releases
 --------
 
 **Latest development release**:
-    | Version: 0.5.0
-    | Released: 2020-03-03
+    | Version: 0.5.1
+    | Released: 2023-04-14
 
 **0.5 (2020-02-01)**:
     - Allow argument to *to_rkm()* to be a string or simple number
