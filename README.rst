@@ -9,7 +9,7 @@
 RKM codes
 =========
 
-| Version: 0.5.1
+| Version: 0.6
 | Released: 2023-04-14
 |
 
@@ -352,7 +352,7 @@ Releases
 --------
 
 **Latest development release**:
-    | Version: 0.5.1
+    | Version: 0.6
     | Released: 2023-04-14
     - Suppress *rkm_code*’s use of the new SI scale factor in `QuantiPhy 
       <https://quantiphy.readthedocs.io>`_ so that ``R`` is no longer treated as 
