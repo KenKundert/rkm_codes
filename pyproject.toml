@@ -29,3 +29,16 @@ changelog = "https://emborg.readthedocs.io/en/latest/releases.html"
 [build-system]
 requires = ["flit_core >=2,<4"]
 build-backend = "flit_core.buildapi"
+
+[tool.pytest.ini_options]
+addopts = "--tb=short"
+
+[tool.ruff]
+exclude = [".tox", "doc", "Diffs"]
+
+[tool.ruff.lint]
+select = ["F"]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"rkm_codes/__init__.py" = ["F401"]
