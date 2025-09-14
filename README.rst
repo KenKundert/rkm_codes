@@ -9,8 +9,8 @@
 RKM codes
 =========
 
-| Version: 0.6
-| Released: 2023-04-14
+| Version: 1.0
+| Released: 2025-09-14
 |
 
 .. image:: https://pepy.tech/badge/rkm_codes/month

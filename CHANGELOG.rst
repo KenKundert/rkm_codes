@@ -4,8 +4,8 @@ Change Log
 Latest Development Version
 --------------------------
 
-| Version: 0.6
-| Released: 2023-04-14
+| Version: 1.0
+| Released: 2025-09-14
 
 
 1.0 (2025-09-14)

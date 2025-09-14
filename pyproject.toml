@@ -1,6 +1,6 @@
 [project]
 name = "rkm_codes"
-version = "0.6"
+version = "1.0"
 description = "QuantiPhy support for RKM codes."
 readme = "README.rst"
 keywords = ["quantiphy", "rkm"]
