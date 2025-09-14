@@ -15,4 +15,7 @@ files:
     README.rst:
         version: Version
         date: Released
+    CHANGELOG.rst:
+        version: Version
+        date: Released
 style: python

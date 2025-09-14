@@ -1,7 +1,5 @@
-# RKM codes
 # encoding: utf8
-
-# description {{{1
+# DESCRIPTION {{{1
 """
 RKM codes are used to represent electrical quantities in labels, particularly on
 schematics and on the components themselves.  They are standardized in various
@@ -33,28 +31,32 @@ not implied by the value, making RKM codes suitable for a wider variety of value
 types, such as voltage, current, and inductance.
 """
 
-# license {{{1
-# Copyright (C) 2018-2023 Kenneth S. Kundert
+# MIT LICENSE {{{1
+# Copyright (c) 2020-2025 Kenneth S. Kundert
 #
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 #
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see [http://www.gnu.org/licenses/].
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-
-# imports {{{1
+# IMPORTS {{{1
 import re
 from quantiphy import Quantity
 
-# constants {{{1
+# CONSTANTS {{{1
 # version {{{2
 __version__ = '0.6'
 __released__ = '2023-04-14'
@@ -141,12 +143,12 @@ STRIP_ZEROS = True
 STRIP_CODE = True
 PREC = 1
 
-# utilities {{{1
+# UTILITIES {{{1
 # cull {{{2
 def cull(collection):
     return (v for v in collection if v)
 
-# set_prefs {{{1
+# PREFERENCES {{{1
 _rkm_maps = UNITLESS_MAPS
 _units_to_rkm_base_code = UNITS_TO_RKM_BASE_CODE
 _map_sf = MAP_SF
@@ -244,7 +246,7 @@ def set_prefs(
     elif prec is not False:
         _prec = prec
 
-# RKM code patterns {{{1
+# RKM CODE PATTERNS {{{1
 # regex1 matches rkm codes that start with a digit.
 # regex2 matches rkm codes that end with a digit.
 ld_regex = r'([pmn]?)([0-9]+)([a-zµμΩƱ]+)([0-9]*)'
@@ -254,7 +256,7 @@ ld_matcher = re.compile(ld_regex, re.I)
 td_matcher = re.compile(td_regex, re.I)
 combined_matcher = re.compile(combined_regex, re.I)
 
-# from_rkm {{{1
+# from_rkm() {{{1
 def from_rkm(code):
     '''From RKM
 
@@ -282,7 +284,7 @@ def from_rkm(code):
                 sign = ''
             return Quantity(''.join(cull([sign, ld,  '.',  td,  sf, units])))
 
-# to_rkm {{{1
+# to_rkm() {{{1
 def to_rkm(q, prec=None, show_units=None, strip_zeros=None, strip_code=None):
     '''To RKM
 
@@ -364,7 +366,7 @@ def to_rkm(q, prec=None, show_units=None, strip_zeros=None, strip_code=None):
     value = value.replace('-', _minus_sign)
     return value.replace('.', _map_sf.get(sf, sf)+units)
 
-# find_rkm {{{1
+# find_rkm() {{{1
 def find_rkm(text, kind=None):
     '''Find RKM codes
 
